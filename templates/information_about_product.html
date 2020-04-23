@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+
+{% block content%}
+<form action="#" method="post" enctype="multipart/form-data">
+<h1>/</h1>
+    <img width="100" height="100" src="media/{{ product_information.picture }}">
+<h1>Name: {{ product_information.name }}</h1>
+<h1>Data added:{{ product_information.date_added }}</h1>
+<h1>Weight:{{ product_information.weight }}</h1>
+<h1>Producer: {{ product_information.producer }}</h1>
+<h1>Note: {{ product_information.note }}</h1>
+    </form>
+{% endblock content%}

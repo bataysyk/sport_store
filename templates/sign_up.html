@@ -1,0 +1,150 @@
+{% extends 'layouts/base.html' %}
+
+{% block content%}
+<h1 align="center" xmlns="http://www.w3.org/1999/html"> Log in </h1>
+<form id="signup-form" action="/home/sign_up/" method="post" onsubmit="return false">
+    {% csrf_token %}
+    <div class="form-group">
+        <label id="label-name" for="username">Your name</label> <span id="login-check-result" style="color: red"> (Error here)</span>
+        <input id="username" class="form-control" type="text" name="name" placeholder="Enter name">
+    </div>
+
+    <div class="form-group">
+        <label id="label-email" for="email">Your email</label> <span id="email-check-result" style="color: red">(Error here)</span>
+        <input id="email" class="form-control" type="email" name="email"  placeholder="Enter email">
+    </div>
+
+    <div class="form-group">
+        <label id="label-password_1" for="password_1">Password</label><span id="password-check-result_1" style="color: red">(Error here)</span>
+        <input id="password_1" class="form-control" type="password" name="password"  placeholder="Enter password">
+    </div>
+    <div class="form-group">
+        <label id="label-password_2" for="password_2">Password 2</label><span id="password-check-result_2" style="color: red">(Error here)</span>
+        <input id="password_2" class="form-control" type="password" name="password_2"  placeholder="Enter password">
+    </div>
+
+    <input class="btn btn-outline-success my-2 my-sm-0"  type="submit" name="submit" id="submit" value="submit">
+
+</form>
+<button id="test-button" class="btn btn-success">test button</button>
+<script>
+<!--    alert('hello');-->
+    let name = $('#label-name');
+    name.text('INPUT VALID USERNAME'); // change element text
+
+    let buttontest = $('#test-button');
+    buttontest.click(function(){
+        alert('button click');
+    });
+
+
+
+    let username = $('#username'); // input field with login
+    let error_1 = $('#login-check-result');
+
+    username.focus(function(){
+            error_1.text("") // delete error span text
+        }
+    );
+
+    username.blur(function(){
+            let logintotest = username.val();
+            $.ajax({
+                url: "/home/ajax_login_check/",
+                data: {"login": logintotest},
+                dataType: "json",
+                success: function(result) {
+                    if (result['test'] === 'Exists'){
+                         error_1.text("Login allready used"); // error message generation
+                         $('#signup-form').attr('onsubmit', 'return false');
+                    }
+                    else if  (result['test'] === 'Free'){
+                         error_1.text("Login is free");
+                         $('#signup-form').attr('onsubmit', 'return true');
+                    }
+                }
+
+            });
+
+        }
+    );
+
+    let email = $("#email");
+    let error_2 = $("#email-check-result");
+
+    email.focus(function(){
+    error_2.text("")
+    }
+    );
+
+    email.blur(function(){
+            let logintotest = email.val();
+            $.ajax({
+                url: "/home/ajax_email_check/",
+                data: {"login": logintotest},
+                dataType: "json",
+                success: function(result){
+                    if (result['test'] === 'Exists'){
+                         error_2.text("Login allready used"); // error message generation
+                         $('#signup-form').attr('onsubmit', 'return false');
+                    }
+                    else if  (result['test'] === 'Free'){
+                         error_3.text("Login is free");
+                         $('#signup-form').attr('onsubmit', 'return true');
+                    }
+                }
+            });
+        });
+
+    let password_1 = $("#password_1");
+    let password_2 = $("#password_2");
+    let error_3 = $("#password-check-result_1");
+    let error_4 = $("#password-check-result_2");
+
+    password_1.focus(function(){
+    error_3.text("")
+    });
+    password_2.focus(function(){
+    error_4.text("")
+    });
+
+    password_1.blur(function(){
+            let password_1_to_test = password_1.val();
+            let password_2_to_test = password_2.val();
+            $.ajax({
+            url: "/home/ajax_password_1_check/",
+            data: {"password_1": password_1_to_test,
+                   "password_2": password_2_to_test },
+            dataType: "json",
+            success: function(result) {
+            if (result['test'] === 'Exists'){
+                         error_3.text("Passwords are different"); // error message generation
+                         error_4.text("Passwords are different"); // error message generation
+                         $('#signup-form').attr('onsubmit', 'return false');
+                    }
+                    else if  (result['test'] === 'Free'){
+                         error_3.text("");
+                         error_4.text("");
+                         $('#signup-form').attr('onsubmit', 'return true');
+                    }
+                 }
+            });
+        }
+    );
+
+<!--testing focus/blur-->
+<!--    let username = $('#username');-->
+<!--    username.focus(function(){-->
+<!--            name.css('background-color','red');-->
+<!--        }-->
+<!--    );-->
+
+<!--    username.blur(function(){-->
+<!--            name.css('background-color','');-->
+<!--        }-->
+<!--    );-->
+
+
+</script>
+
+{% endblock content%}

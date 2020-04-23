@@ -1,0 +1,85 @@
+{% extends 'home.html' %}
+
+
+
+{% block content%}
+<h1  align="center" > Log in </h1>
+<form id="registration-form" action="/home/user_login/" method="post" onsubmit="return false">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label id="registration-label-name" for="account-name">Name</label> <span id="registration-login-check-result" style="color: red">(Error here)</span>
+        <input id="account-name" class="form-control" type="text" name="account-name"  placeholder="Enter login">
+    </div>
+
+    <div class="form-group">
+        <label for="account-password">Password</label> <span id="registration-password-check-result" style="color:red">(Error here)</span>
+        <input id="account-password"  class="form-control" type="password" name="account-password" required placeholder="Enter password">
+    </div>
+
+    <input class="btn btn-outline-success my-2 my-sm-0" type="submit" name="submit" id="submit" value="submit">
+    <a class="btn btn-outline-success my-2 my-sm-0" href="/home/sign_up">Sign up</a>
+</form>
+
+<script>
+    let login = $("#account-name");
+    let error_1 = $("#registration-login-check-result");
+
+    login.focus(function(){
+    error_1.text("")
+    });
+
+    login.blur(function(){
+            let login_to_test = login.val();
+            $.ajax({
+                url: "/home/ajax_registration_login_check",
+                data: {"login": login_to_test},
+                dataType: "json",
+                success: function(result){
+                    if (result['test'] === 'Exists'){
+                         error_1.text("Login allready used"); // error message generation
+                         $('#registration-form').attr('onsubmit', 'return false');
+                    }
+                    else if  (result['test'] === 'Free'){
+                         error_1.text("Login GOOD");
+                         $('#registration-form').attr('onsubmit', 'return true');
+                    }
+                }
+            });
+        });
+
+        let password = $("#account-password");
+        let error_2 = $("#registration-password-check-result");
+
+        password.focus(function(){
+        error_2.text("")
+        });
+
+         password.blur(function(){
+            let password_to_test = password.val();
+            $.ajax({
+                url: "/home/ajax_registration_password_check",
+                data: {"password": password_to_test},
+                dataType: "json",
+                success: function(result){
+                    if (result['test'] === 'Exists'){
+                         error_2.text("Login allready used"); // error message generation
+                         $('#registration-form').attr('onsubmit', 'return false');
+                    }
+                    else if  (result['test'] === 'Free'){
+                         error_2.text("Password GOOD");
+                         $('#registration-form').attr('onsubmit', 'return true');
+                    }
+                }
+            });
+        });
+
+
+
+
+
+
+
+</script>
+
+{% endblock content%}

@@ -1,0 +1,102 @@
+{% extends 'layouts/base.html' %}
+
+{% block content%}
+
+  <div class="row" >
+    <div class="col-sm-3">
+      <div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Sport nutrition
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+          <ul>
+              <li><a href="#">Protein</a></li>
+              <li><a href="#">BSAA</a></li>
+              <li><a href="#">Khreatin</a></li>
+              <li><a href="#">Amino</a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Sport simulators
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body">
+          <ul>
+              <li><a href="#">Horisontal bar</a></li>
+              <li><a href="#">Bench</a></li>
+              <li><a href="#">simulators</a></li>
+              <li><a href="#">Dumbbell</a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          sports vultures
+        </button>
+      </h5>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+          <ul>
+              <li><a href="#">Horisontal bar</a></li>
+              <li><a href="#">Bench</a></li>
+              <li><a href="#">simulators</a></li>
+              <li><a href="#">Dumbbell</a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+    <div class="col-sm-9">
+      <h1 align="center">Products</h1>
+        <div class="container">
+        <div class="row">
+{% for product in products %}
+         <div class="col-sm">
+<form id="product" action="/home/add_in_basked/" method="POST">
+     {% csrf_token %}
+    <ul>
+        <img width="100" height="100" src="media/{{ product.picture }}">
+        <li><b id="basked-name">{{ product.name }}</b></li>
+        <li><b id="basked-price">{{ product.price }}грн.</b></li>
+        <li><b><a  href="/home/information_about_product/{{ product.id }}">Information about product</a> </b></li>
+        <a id="button-basked" class="btn btn-success" href="/home/add_in_basked/{{ product.id }}">Add to basket</a>
+        <a id="button-edit-product" class="btn btn-danger" href="/home/admin_edit_product/{{ product.id }}">Edit product</a>
+        <a id="button-delete-product" class="btn btn-danger" href="/home/admin_delete_product/{{ product.id }}">Delete product</a>
+
+    </ul>
+</form>
+    </div>
+
+{% endfor  %}
+</div>
+  </div>
+</div>
+    </div>
+
+<script>
+
+</script>
+
+
+
+
+{% endblock content%}

@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html' %}
+
+{% block content%}
+<form id="product" action="/home/admin_edit_product/{{ product.id }}" method="POST" enctype="multipart/form-data">
+     {% csrf_token %}
+<h1>Add product</h1>
+{% for field in form %}
+    <p>{{ field.label }}</p>
+    <p>{{ field }}</p>
+
+{% endfor%}
+    <input class="btn btn-danger"  type="submit" value="Create">
+</form>
+{% endblock content%}
