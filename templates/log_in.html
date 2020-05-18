@@ -21,7 +21,10 @@
     <a class="btn btn-outline-success my-2 my-sm-0" href="/home/sign_up">Sign up</a>
 </form>
 
+
 <script>
+
+
     let login = $("#account-name");
     let error_1 = $("#registration-login-check-result");
 
@@ -36,6 +39,7 @@
                 data: {"login": login_to_test},
                 dataType: "json",
                 success: function(result){
+                    alert(1);
                     if (result['test'] === 'Exists'){
                          error_1.text("Login allready used"); // error message generation
                          $('#registration-form').attr('onsubmit', 'return false');

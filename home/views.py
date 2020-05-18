@@ -50,7 +50,7 @@ def sign_up(request):
             password=password
         )
         user.save()
-        return render(request, "home_2.html")
+        return render(request, "home.html")
 
 def account(request):
     return render(request, "account.html")
